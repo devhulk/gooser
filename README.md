@@ -10,7 +10,7 @@ Made this for fun, but I think it could be a great beginner project for people w
 
 ## How to run the project?
 
-You can clone the project and if you have <a href="https://go.dev/doc/install" target="_blank">golang</a> [golang](https://go.dev/doc/install) installed you can run it with this command.
+You can clone the project and if you have [golang](https://go.dev/doc/install) installed you can run it with this command.
 ```
 go run *.go -username={username}
 ```
