@@ -21,7 +21,7 @@ Can run on pretty much everything (thanks Go and [Go Releaser](https://gorelease
 - Mac (Darwin)
 - Windows
 
-Extension ideas:
+## Extension ideas:
 - Clean up the functions by creating another file to hold them.
 - Add more flags so users can narrow down by category
 - Add flag for most common socials so it doesn't have to go through all 500+ sites
