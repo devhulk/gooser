@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 const file_uri = "https://raw.githubusercontent.com/WebBreacher/WhatsMyName/main/wmn-data.json"
@@ -58,26 +59,55 @@ func getSiteMap() (WhatsMyName, error) {
 
 }
 
-func checkSites(u WhatsMyName) {
+func checkSites(w WhatsMyName, u string) {
 
-	for _, v := range u.Sites {
-		fmt.Println(v.URICheck)
+	good := 0
+	bad := 0
+
+	for _, v := range w.Sites {
+
+		uri := strings.Replace(v.URICheck, "{account}", u, 1)
+		resp, err := http.Get(uri)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		if resp.StatusCode == v.ECode {
+			fmt.Println("good")
+			good++
+		} else if resp.StatusCode == v.MCode {
+			fmt.Println("bad")
+			bad++
+		}
+		//We Read the response body on the line below.
+		// body, err := ioutil.ReadAll(resp.Body)
+		// if err != nil {
+		// 	log.Fatalln(err)
+		// }
+		//Convert the body to type string
+		// sb := string(body)
+		// log.Printf(sb)
 	}
 
+	fmt.Println("Good Responses: ", good)
+	fmt.Println("Bad Responses: ", bad)
 }
 
 func main() {
 
 	flag.Func("username", "gooser <username> -- string representation of username.", func(v string) error {
+
 		if v == "" {
 			return errors.New("you didn't pass a value you dirty goose")
 		}
+
 		result, err := getSiteMap()
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		checkSites(result)
+		checkSites(result, v)
 
 		return nil
 	})
