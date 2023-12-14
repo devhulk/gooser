@@ -57,6 +57,13 @@ func getSiteMap() (map[string]interface{}, error) {
 
 }
 
+func checkSites(json map[string]interface{}) {
+	for k, _ := range json {
+		fmt.Println(k)
+	}
+
+}
+
 func main() {
 
 	flag.Func("username", "gooser <username> -- string representation of username.", func(v string) error {
@@ -68,8 +75,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		fmt.Println(result["categories"])
-		fmt.Println(result["sites"])
+		checkSites(result)
 
 		return nil
 	})
