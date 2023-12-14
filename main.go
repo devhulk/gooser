@@ -11,6 +11,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/zchee/color/v2"
 )
 
 const file_uri = "https://raw.githubusercontent.com/WebBreacher/WhatsMyName/main/wmn-data.json"
@@ -66,36 +68,23 @@ func checkSites(w WhatsMyName, u string) []string {
 	for _, v := range w.Sites {
 
 		uri := strings.Replace(v.URICheck, "{account}", u, 1)
-		resp, err := requestSite(uri)
-
+		resp, err := http.Get(uri)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
+			continue
 		}
 
 		if resp.StatusCode == v.ECode {
-
+			color.Green("Hit: %v\n", uri)
 			hits = append(hits, uri)
-			fmt.Println("Hit: ", uri)
-			continue
 
 		} else if resp.StatusCode == v.MCode {
-			fmt.Println("Nope: ", uri)
+			color.Red("Nope: %v\n", uri)
 			continue
 		}
 	}
 
 	return hits
-}
-
-func requestSite(uri string) (*http.Response, error) {
-
-	resp, err := http.Get(uri)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-
-	return resp, nil
 
 }
 
@@ -112,7 +101,8 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		checkSites(result, v)
+		hits := checkSites(result, v)
+		fmt.Println(hits)
 
 		return nil
 	})
