@@ -8,10 +8,18 @@ gooser is a play on go-user (gouser). Think about it.
 
 Made this for fun, but I think it could be a great beginner project for people who are interested in OSINT/Cybersecurity and Golang.
 
-Run it with
+## How to run the project?
+
+You can clone the project and if you have [golang](https://go.dev/doc/install) installed you can run it with this command.
 ```
 go run *.go -username={username}
 ```
+
+You can also check out the releases section and download for the os of your choice.
+Can run on pretty much everything (thanks Go and [Go Releaser](https://goreleaser.com/quick-start/)):
+- Linux
+- Mac (Darwin)
+- Windows
 
 Extension ideas:
 - Clean up the functions by creating another file to hold them.
