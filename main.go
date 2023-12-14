@@ -59,39 +59,44 @@ func getSiteMap() (WhatsMyName, error) {
 
 }
 
-func checkSites(w WhatsMyName, u string) {
+func checkSites(w WhatsMyName, u string) []string {
 
-	good := 0
-	bad := 0
+	var hits []string
 
 	for _, v := range w.Sites {
 
 		uri := strings.Replace(v.URICheck, "{account}", u, 1)
-		resp, err := http.Get(uri)
+		resp, err := requestSite(uri)
+
 		if err != nil {
-			log.Println(err)
-			continue
+			fmt.Println(err)
 		}
 
 		if resp.StatusCode == v.ECode {
-			fmt.Println("good")
-			good++
+
+			hits = append(hits, uri)
+			fmt.Println("Hit: ", uri)
+			continue
+
 		} else if resp.StatusCode == v.MCode {
-			fmt.Println("bad")
-			bad++
+			fmt.Println("Nope: ", uri)
+			continue
 		}
-		//We Read the response body on the line below.
-		// body, err := ioutil.ReadAll(resp.Body)
-		// if err != nil {
-		// 	log.Fatalln(err)
-		// }
-		//Convert the body to type string
-		// sb := string(body)
-		// log.Printf(sb)
 	}
 
-	fmt.Println("Good Responses: ", good)
-	fmt.Println("Bad Responses: ", bad)
+	return hits
+}
+
+func requestSite(uri string) (*http.Response, error) {
+
+	resp, err := http.Get(uri)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	return resp, nil
+
 }
 
 func main() {
