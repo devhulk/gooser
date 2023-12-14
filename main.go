@@ -15,51 +15,53 @@ import (
 const file_uri = "https://raw.githubusercontent.com/WebBreacher/WhatsMyName/main/wmn-data.json"
 const file_name = "wmn-data.json"
 
-func getSiteMap() (map[string]interface{}, error) {
+func getSiteMap() (WhatsMyName, error) {
 
 	out, err := os.Create(file_name)
 	if err != nil {
-		return nil, err
+		return WhatsMyName{}, err
 	}
 
 	defer out.Close()
 
 	resp, err := http.Get(file_uri)
 	if err != nil {
-		return nil, err
+		return WhatsMyName{}, err
 	}
 
 	defer resp.Body.Close()
 
 	_, err2 := io.Copy(out, resp.Body)
 	if err2 != nil {
-		return nil, err
+		return WhatsMyName{}, err
 	}
 
 	out.Close()
 
 	v, err := os.Open(file_name)
 	if err != nil {
-		return nil, err
+		return WhatsMyName{}, err
 	}
 	defer v.Close()
 
 	byteValue, _ := ioutil.ReadAll(v)
 
-	var result map[string]interface{}
+	var result WhatsMyName
 
-	err3 := json.Unmarshal([]byte(byteValue), &result)
+	err3 := json.Unmarshal(byteValue, &result)
 	if err3 != nil {
-		return nil, err
+		log.Fatalln(err3)
+		return WhatsMyName{}, err
 	}
 
 	return result, nil
 
 }
 
-func checkSites(json map[string]interface{}) {
-	for k, _ := range json {
-		fmt.Println(k)
+func checkSites(u WhatsMyName) {
+
+	for _, v := range u.Sites {
+		fmt.Println(v.URICheck)
 	}
 
 }
