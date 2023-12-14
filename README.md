@@ -15,7 +15,7 @@ You can clone the project and if you have [golang](https://go.dev/doc/install) i
 go run *.go -username={username}
 ```
 
-You can also check out the releases section and download for the os of your choice.
+You can also check out the [releases](https://github.com/devhulk/gooser/releases) section and download for the os of your choice.
 Can run on pretty much everything (thanks Go and [Go Releaser](https://goreleaser.com/quick-start/)):
 - Linux
 - Mac (Darwin)
