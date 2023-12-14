@@ -8,7 +8,13 @@ gooser is a play on go-user (gouser). Think about it.
 
 Made this for fun, but I think it could be a great beginner project for people who are interested in OSINT/Cybersecurity and Golang.
 
+Run it with
+```
+go run *.go -username={username}
+```
+
 Extension ideas:
+- Clean up the functions by creating another file to hold them.
 - Add more flags so users can narrow down by category
 - Add flag for most common socials so it doesn't have to go through all 500+ sites
 - Make it concurrent (Can you make it faster? Good chance to mess around with go routines, channels, mutex, waitgroup etc)
